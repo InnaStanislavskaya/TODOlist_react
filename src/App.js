@@ -1,14 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import TodoList from './TODO/TodoList'
 import Context from './context'
 import AddTodo from './TODO/AddTodo'
 
 function App() {
-  const [todos, setTodos] = React.useState([
-    {id: 1, completed: false, title: 'Купить хлеб'},
-    {id: 2, completed: false, title: 'Купить молоко'},
-    {id: 3, completed: false, title: 'Купить яблоки'}
-  ])
+  const [todos, setTodos] = React.useState([])
+
+  useEffect(() => {
+    fetch('https://jsonplaceholder.typicode.com/todos/?_limit=5')
+      .then(response => response.json())
+      .then(todos => {
+        setTodos(todos)
+      })
+  }, [])
 
   function toggleTodo(id) {
     setTodos(
